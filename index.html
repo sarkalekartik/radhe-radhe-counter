@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radhe Radhe Japa</title>
+
+<style>
+body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(circle,#ffcc80,#ff9933);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:system-ui;
+}
+.container{
+  text-align:center;
+  position:relative;
+  color:#5a2d0c;
+}
+.sound-toggle{
+  position:absolute;
+  top:-45px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#fff;
+  padding:6px 10px;
+  border-radius:16px;
+  cursor:pointer;
+  box-shadow:0 3px 8px rgba(0,0,0,.2);
+  user-select:none;
+  font-size:14px;
+}
+.icons{font-size:32px;margin-bottom:4px;}
+.title{font-size:28px;font-weight:700;}
+.subtitle{font-size:16px;margin-bottom:20px;}
+
+.circle{
+  width:220px;height:220px;
+  border-radius:50%;
+  background:radial-gradient(circle at top,#fff3cd,#e67e22);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  box-shadow:0 0 30px rgba(0,0,0,.3);
+  cursor:pointer;
+  user-select:none;
+}
+.circle:active{transform:scale(.96);}
+.count{font-size:52px;font-weight:700;color:#2c3e50;}
+.infinity{font-size:14px;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Small Sound Toggle -->
+  <div class="sound-toggle" onclick="toggleSound()">
+    <span id="soundIcon">🔇</span>
+  </div>
+
+  <div class="icons">🦚🪈</div>
+  <div class="title">Radhe Radhe</div>
+  <div class="subtitle">Tap the Circle</div>
+
+  <!-- Unlimited Counter -->
+  <div class="circle" onclick="chant()">
+    <div class="count" id="count">0</div>
+    <div class="infinity">∞ Unlimited</div>
+  </div>
+
+</div>
+
+<!-- Unlimited looping sound -->
+<audio id="chantSound" src="radhe-radhe.mp3" loop></audio>
+
+<script>
+let count = 0;
+let soundOn = false;
+const sound = document.getElementById("chantSound");
+
+/* 🔓 Unlock audio for mobile */
+let audioUnlocked = false;
+document.body.addEventListener("click", () => {
+  if (!audioUnlocked) {
+    sound.play().then(() => {
+      sound.pause();
+      sound.currentTime = 0;
+      audioUnlocked = true;
+    }).catch(()=>{});
+  }
+}, { once:true });
+
+function toggleSound(){
+  soundOn = !soundOn;
+  document.getElementById("soundIcon").innerText = soundOn ? "🔊" : "🔇";
+
+  if (soundOn && audioUnlocked) {
+    sound.play().catch(()=>{});
+  } else {
+    sound.pause();
+    sound.currentTime = 0;
+  }
+}
+
+function chant(){
+  count++;                 // 🔁 UNLIMITED COUNT
+  document.getElementById("count").innerText = count;
+}
+</script>
+
+</body>
+</html>
